@@ -13,3 +13,21 @@ export async function login(body: API.LoginParams, options?: { [key: string]: an
     ...(options || {}),
   });
 }
+
+/** 发送验证码 GET /api/auth/captcha */
+export async function getCaptcha(
+  params: {
+    // query
+    /** 手机号 */
+    phone?: string;
+  },
+  options?: { [key: string]: any },
+) {
+  return request<API.GetCaptchaResponse>('/api/auth/captcha', {
+    method: 'GET',
+    params: {
+      ...params,
+    },
+    ...(options || {}),
+  });
+}

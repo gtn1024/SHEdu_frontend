@@ -57,9 +57,9 @@ declare namespace API {
     success?: boolean;
   };
 
-  type FakeCaptcha = {
-    code?: number;
+  type GetCaptchaResponse = {
     status?: string;
+    message?: string;
   };
 
   type LoginParams = {

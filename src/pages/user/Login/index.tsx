@@ -1,6 +1,5 @@
 import Footer from '@/components/Footer';
-import { login } from '@/services/ant-design-pro/auth';
-import { getFakeCaptcha } from '@/services/ant-design-pro/login';
+import { getCaptcha, login } from '@/services/ant-design-pro/auth';
 import {
   AlipayCircleOutlined,
   LockOutlined,
@@ -42,7 +41,7 @@ const Login: React.FC = () => {
     const userInfo = await initialState?.fetchUserInfo?.();
 
     if (userInfo) {
-      await setInitialState((s) => ({ ...s, currentUser: userInfo }));
+      await setInitialState((s: any) => ({ ...s, currentUser: userInfo }));
     }
   };
 
@@ -91,6 +90,9 @@ const Login: React.FC = () => {
             <AlipayCircleOutlined key="AlipayCircleOutlined" className={styles.icon} />,
             <TaobaoCircleOutlined key="TaobaoCircleOutlined" className={styles.icon} />,
             <WeiboCircleOutlined key="WeiboCircleOutlined" className={styles.icon} />,
+            <a href="/user/register" key="register" className={styles.reg_text}>
+              注册账号
+            </a>,
           ]}
           onFinish={async (values) => {
             await handleSubmit(values as API.LoginParams);
@@ -146,14 +148,14 @@ const Login: React.FC = () => {
                   prefix: <MobileOutlined className={styles.prefixIcon} />,
                 }}
                 name="mobile"
-                placeholder={'请输入手机号！'}
+                placeholder={'请输入手机号'}
                 rules={[
                   {
                     required: true,
                     message: '手机号是必填项！',
                   },
                   {
-                    pattern: /^1\d{10}$/,
+                    pattern: /^1[3456789]\d{9}$/,
                     message: '不合法的手机号！',
                   },
                 ]}
@@ -166,8 +168,9 @@ const Login: React.FC = () => {
                 captchaProps={{
                   size: 'large',
                 }}
-                placeholder={'请输入验证码！'}
-                captchaTextRender={(timing, count) => {
+                phoneName="mobile"
+                placeholder={'请输入验证码'}
+                captchaTextRender={(timing: any, count: any) => {
                   if (timing) {
                     return `${count} ${'秒后重新获取'}`;
                   }
@@ -181,8 +184,8 @@ const Login: React.FC = () => {
                     message: '验证码是必填项！',
                   },
                 ]}
-                onGetCaptcha={async (phone) => {
-                  const result = await getFakeCaptcha({
+                onGetCaptcha={async (phone: string) => {
+                  const result = await getCaptcha({
                     phone,
                   });
 
