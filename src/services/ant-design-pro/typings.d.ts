@@ -26,7 +26,8 @@ declare namespace API {
   type LoginResult = {
     status?: string;
     type?: string;
-    currentAuthority?: string;
+    message?: string;
+    uuid?: string;
   };
 
   type PageParams = {
