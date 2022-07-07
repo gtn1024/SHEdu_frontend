@@ -26,11 +26,6 @@
     "start:dev": "cross-env REACT_APP_ENV=dev MOCK=none UMI_ENV=dev umi dev",
     "start:no-mock": "cross-env MOCK=none UMI_ENV=dev umi dev",
     "start:no-ui": "cross-env UMI_UI=none UMI_ENV=dev umi dev",
-    "start:pre": "cross-env REACT_APP_ENV=pre UMI_ENV=dev umi dev",
-    "start:test": "cross-env REACT_APP_ENV=test MOCK=none UMI_ENV=dev umi dev",
-    "test": "umi test",
-    "test:component": "umi test ./src/components",
-    "test:e2e": "node ./tests/run-tests.js",
     "tsc": "tsc --noEmit"
   },
   "lint-staged": {
@@ -64,11 +59,9 @@
   },
   "devDependencies": {
     "@ant-design/pro-cli": "^2.1.0",
-    "@playwright/test": "^1.17.0",
     "@types/classnames": "^2.3.1",
     "@types/express": "^4.17.0",
     "@types/history": "^4.7.0",
-    "@types/jest": "^26.0.0",
     "@types/lodash": "^4.14.0",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
