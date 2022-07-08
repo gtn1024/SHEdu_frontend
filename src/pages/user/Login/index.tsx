@@ -1,5 +1,7 @@
 import Footer from '@/components/Footer';
-import { getCaptcha } from '@/services/auth';
+import type { LoginParams } from '@/model/request/auth';
+import type { LoginResult } from '@/model/response/auth';
+import { getCaptcha, loginUser } from '@/api/auth';
 import { LockOutlined, MobileOutlined, QqCircleFilled, UserOutlined } from '@ant-design/icons';
 import {
   LoginForm,
@@ -11,7 +13,6 @@ import { Alert, message, Tabs } from 'antd';
 import React, { useState } from 'react';
 import { history, useModel } from 'umi';
 import styles from './index.less';
-import { loginUser } from './service';
 
 const LoginMessage: React.FC<{
   content: string;
@@ -27,7 +28,7 @@ const LoginMessage: React.FC<{
 );
 
 const Login: React.FC = () => {
-  const [userLoginState, setUserLoginState] = useState<API.LoginResult>({});
+  const [userLoginState, setUserLoginState] = useState<LoginResult>({});
   const [type, setType] = useState<string>('account');
   const { initialState, setInitialState } = useModel('@@initialState');
 
@@ -39,7 +40,7 @@ const Login: React.FC = () => {
     }
   };
 
-  const handleSubmit = async (values: API.LoginParams) => {
+  const handleSubmit = async (values: LoginParams) => {
     try {
       // 登录
       const msg = await loginUser({ ...values, type });
@@ -87,7 +88,7 @@ const Login: React.FC = () => {
             </a>,
           ]}
           onFinish={async (values) => {
-            await handleSubmit(values as API.LoginParams);
+            await handleSubmit(values as LoginParams);
           }}
         >
           <Tabs activeKey={type} onChange={setType}>

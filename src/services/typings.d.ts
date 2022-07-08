@@ -2,23 +2,6 @@
 /* eslint-disable */
 
 declare namespace API {
-  type CurrentUser = {
-    id?: number;
-    username?: string;
-    avatar?: string;
-    notifyCount?: number;
-    unreadCount?: number;
-    access?: string;
-    phone?: string;
-  };
-
-  type LoginResult = {
-    status?: string;
-    type?: string;
-    message?: string;
-    uuid?: string;
-  };
-
   type PageParams = {
     current?: number;
     pageSize?: number;
@@ -44,23 +27,6 @@ declare namespace API {
     /** 列表的内容总数 */
     total?: number;
     success?: boolean;
-  };
-
-  type GetCaptchaResponse = {
-    status?: string;
-    message?: string;
-  };
-
-  type UserLogoutResponse = {
-    status?: string;
-    message?: string;
-  };
-
-  type LoginParams = {
-    username?: string;
-    password?: string;
-    autoLogin?: boolean;
-    type?: string;
   };
 
   type ErrorResponse = {

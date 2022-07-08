@@ -6,7 +6,8 @@ import { PageLoading, SettingDrawer } from '@ant-design/pro-components';
 import type { RunTimeLayoutConfig } from 'umi';
 import { history, Link } from 'umi';
 import defaultSettings from '../config/defaultSettings';
-import { currentUser as queryCurrentUser } from './services/api';
+import type { CurrentUser } from './model/response/user';
+import { currentUser as queryCurrentUser } from '@/api/auth';
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
@@ -21,9 +22,9 @@ export const initialStateConfig = {
  */
 export async function getInitialState(): Promise<{
   settings?: Partial<LayoutSettings>;
-  currentUser?: API.CurrentUser;
+  currentUser?: CurrentUser;
   loading?: boolean;
-  fetchUserInfo?: () => Promise<API.CurrentUser | undefined>;
+  fetchUserInfo?: () => Promise<CurrentUser | undefined>;
 }> {
   const fetchUserInfo = async () => {
     try {

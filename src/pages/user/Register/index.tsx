@@ -3,13 +3,12 @@ import { useState, useEffect } from 'react';
 import { Form, Button, Input, Popover, Progress, message } from 'antd';
 import type { Store } from 'antd/es/form/interface';
 import { Link } from 'umi';
-import type { UserRegisterParams } from './service';
-import { userRegister } from './service';
 
 import styles from './index.less';
-import { getCaptcha } from '@/services/auth';
+import { getCaptcha, userRegister } from '@/api/auth';
 import { ProFormCaptcha } from '@ant-design/pro-components';
 import Footer from '@/components/Footer';
+import type { UserRegisterParams } from '@/model/request/auth';
 
 const FormItem = Form.Item;
 const InputGroup = Input.Group;
