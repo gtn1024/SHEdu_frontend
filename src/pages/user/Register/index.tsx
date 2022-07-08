@@ -9,6 +9,7 @@ import { userRegister } from './service';
 import styles from './index.less';
 import { getCaptcha } from '@/services/auth';
 import { ProFormCaptcha } from '@ant-design/pro-components';
+import Footer from '@/components/Footer';
 
 const FormItem = Form.Item;
 const InputGroup = Input.Group;
@@ -41,7 +42,7 @@ const passwordProgressMap: {
   poor: 'exception',
 };
 
-const PAGE_NAME_UPPER_CAMEL_CASE: FC = () => {
+const Register: FC = () => {
   const [visible, setVisible]: [boolean, any] = useState(false);
   const [popover, setPopover]: [boolean, any] = useState(false);
   const confirmDirty = false;
@@ -129,146 +130,149 @@ const PAGE_NAME_UPPER_CAMEL_CASE: FC = () => {
   };
 
   return (
-    <div className={styles.main}>
-      <h3>注册</h3>
-      <Form form={form} name="UserRegister" onFinish={onFinish}>
-        <FormItem
-          name="username"
-          rules={[
-            {
-              required: true,
-              message: '请输入用户名!',
-            },
-            {
-              type: 'string',
-              min: 2,
-              message: '长度至少为2位!',
-            },
-          ]}
-        >
-          <Input size="large" placeholder="用户名" />
-        </FormItem>
-        <Popover
-          getPopupContainer={(node) => {
-            if (node && node.parentNode) {
-              return node.parentNode as HTMLElement;
-            }
-            return node;
-          }}
-          content={
-            visible && (
-              <div style={{ padding: '4px 0' }}>
-                {passwordStatusMap[getPasswordStatus()]}
-                {renderPasswordProgress()}
-                <div style={{ marginTop: 10 }}>
-                  <span>请至少输入 6 个字符。请不要使用容易被猜到的密码。</span>
-                </div>
-              </div>
-            )
-          }
-          overlayStyle={{ width: 240 }}
-          placement="right"
-          visible={visible}
-        >
+    <div className={styles.container}>
+      <div className={styles.main}>
+        <h3>注册</h3>
+        <Form form={form} name="UserRegister" onFinish={onFinish}>
           <FormItem
-            name="password"
-            className={
-              form.getFieldValue('password') &&
-              form.getFieldValue('password').length > 0 &&
-              styles.password
-            }
-            rules={[
-              {
-                validator: checkPassword,
-              },
-            ]}
-          >
-            <Input size="large" type="password" placeholder="至少6位密码，区分大小写" />
-          </FormItem>
-        </Popover>
-        <FormItem
-          name="confirm"
-          rules={[
-            {
-              required: true,
-              message: '确认密码',
-            },
-            {
-              validator: checkConfirm,
-            },
-          ]}
-        >
-          <Input size="large" type="password" placeholder="确认密码" />
-        </FormItem>
-        <InputGroup compact>
-          <FormItem
-            style={{ width: '80%' }}
-            name="mobile"
+            name="username"
             rules={[
               {
                 required: true,
-                message: '请输入手机号!',
+                message: '请输入用户名!',
               },
               {
-                pattern: /^1[3456789]\d{9}$/,
-                message: '手机号格式错误!',
+                type: 'string',
+                min: 2,
+                message: '长度至少为2位!',
               },
             ]}
           >
-            <Input size="large" placeholder="手机号" />
+            <Input size="large" placeholder="用户名" />
           </FormItem>
-        </InputGroup>
-        <ProFormCaptcha
-          fieldProps={{
-            size: 'large',
-          }}
-          captchaProps={{
-            size: 'large',
-          }}
-          phoneName="mobile"
-          placeholder={'验证码'}
-          captchaTextRender={(timing: any, count: any) => {
-            if (timing) {
-              return `${count} ${'秒后重新获取'}`;
+          <Popover
+            getPopupContainer={(node) => {
+              if (node && node.parentNode) {
+                return node.parentNode as HTMLElement;
+              }
+              return node;
+            }}
+            content={
+              visible && (
+                <div style={{ padding: '4px 0' }}>
+                  {passwordStatusMap[getPasswordStatus()]}
+                  {renderPasswordProgress()}
+                  <div style={{ marginTop: 10 }}>
+                    <span>请至少输入 6 个字符。请不要使用容易被猜到的密码。</span>
+                  </div>
+                </div>
+              )
             }
-
-            return '获取验证码';
-          }}
-          name="captcha"
-          rules={[
-            {
-              required: true,
-              message: '验证码是必填项！',
-            },
-          ]}
-          onGetCaptcha={async (phone: string) => {
-            const result = await getCaptcha({
-              phone,
-            });
-
-            if (result === false) {
-              return;
-            }
-
-            message.success('获取验证码成功！');
-          }}
-        />
-        <FormItem>
-          <Button
-            size="large"
-            // loading={submitting}
-            className={styles.submit}
-            type="primary"
-            htmlType="submit"
+            overlayStyle={{ width: 240 }}
+            placement="right"
+            visible={visible}
           >
-            <span>注册</span>
-          </Button>
-          <Link className={styles.login} to="/user/login">
-            <span>使用已有账户登录</span>
-          </Link>
-        </FormItem>
-      </Form>
+            <FormItem
+              name="password"
+              className={
+                form.getFieldValue('password') &&
+                form.getFieldValue('password').length > 0 &&
+                styles.password
+              }
+              rules={[
+                {
+                  validator: checkPassword,
+                },
+              ]}
+            >
+              <Input size="large" type="password" placeholder="至少6位密码，区分大小写" />
+            </FormItem>
+          </Popover>
+          <FormItem
+            name="confirm"
+            rules={[
+              {
+                required: true,
+                message: '确认密码',
+              },
+              {
+                validator: checkConfirm,
+              },
+            ]}
+          >
+            <Input size="large" type="password" placeholder="确认密码" />
+          </FormItem>
+          <InputGroup compact>
+            <FormItem
+              style={{ width: '100%' }}
+              name="mobile"
+              rules={[
+                {
+                  required: true,
+                  message: '请输入手机号!',
+                },
+                {
+                  pattern: /^1[3456789]\d{9}$/,
+                  message: '手机号格式错误!',
+                },
+              ]}
+            >
+              <Input size="large" placeholder="手机号" />
+            </FormItem>
+          </InputGroup>
+          <ProFormCaptcha
+            fieldProps={{
+              size: 'large',
+            }}
+            captchaProps={{
+              size: 'large',
+            }}
+            phoneName="mobile"
+            placeholder={'验证码'}
+            captchaTextRender={(timing: any, count: any) => {
+              if (timing) {
+                return `${count} ${'秒后重新获取'}`;
+              }
+
+              return '获取验证码';
+            }}
+            name="captcha"
+            rules={[
+              {
+                required: true,
+                message: '验证码是必填项！',
+              },
+            ]}
+            onGetCaptcha={async (phone: string) => {
+              const result = await getCaptcha({
+                phone,
+              });
+
+              if (result === false) {
+                return;
+              }
+
+              message.success('获取验证码成功！');
+            }}
+          />
+          <FormItem>
+            <Button
+              size="large"
+              // loading={submitting}
+              className={styles.submit}
+              type="primary"
+              htmlType="submit"
+            >
+              <span>注册</span>
+            </Button>
+            <Link className={styles.login} to="/user/login">
+              <span>使用已有账户登录</span>
+            </Link>
+          </FormItem>
+        </Form>
+      </div>
+      <Footer />
     </div>
   );
 };
-export default PAGE_NAME_UPPER_CAMEL_CASE;
+export default Register;

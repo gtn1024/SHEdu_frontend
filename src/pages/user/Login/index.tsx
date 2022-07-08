@@ -1,13 +1,6 @@
 import Footer from '@/components/Footer';
 import { getCaptcha } from '@/services/auth';
-import {
-  AlipayCircleOutlined,
-  LockOutlined,
-  MobileOutlined,
-  TaobaoCircleOutlined,
-  UserOutlined,
-  WeiboCircleOutlined,
-} from '@ant-design/icons';
+import { LockOutlined, MobileOutlined, QqCircleFilled, UserOutlined } from '@ant-design/icons';
 import {
   LoginForm,
   ProFormCaptcha,
@@ -88,9 +81,7 @@ const Login: React.FC = () => {
           }}
           actions={[
             '其他登录方式 :',
-            <AlipayCircleOutlined key="AlipayCircleOutlined" className={styles.icon} />,
-            <TaobaoCircleOutlined key="TaobaoCircleOutlined" className={styles.icon} />,
-            <WeiboCircleOutlined key="WeiboCircleOutlined" className={styles.icon} />,
+            <QqCircleFilled key="QqCircleFilled" className={styles.icon} />,
             <a href="/user/register" key="register" className={styles.reg_text}>
               注册账号
             </a>,
