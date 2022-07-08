@@ -7,7 +7,7 @@ import type { UserRegisterParams } from './service';
 import { userRegister } from './service';
 
 import styles from './index.less';
-import { getCaptcha } from '@/services/ant-design-pro/auth';
+import { getCaptcha } from '@/services/auth';
 import { ProFormCaptcha } from '@ant-design/pro-components';
 
 const FormItem = Form.Item;
