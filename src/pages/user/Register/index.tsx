@@ -1,15 +1,16 @@
 import type { FC } from 'react';
 import { useState, useEffect } from 'react';
-import { Form, Button, Col, Input, Popover, Progress, Row, Select, message } from 'antd';
+import { Form, Button, Input, Popover, Progress, message } from 'antd';
 import type { Store } from 'antd/es/form/interface';
-import { Link, useRequest, history } from 'umi';
-import type { StateType } from './service';
-import { fakeRegister } from './service';
+import { Link } from 'umi';
+import type { UserRegisterParams } from './service';
+import { userRegister } from './service';
 
 import styles from './index.less';
+import { getCaptcha } from '@/services/ant-design-pro/auth';
+import { ProFormCaptcha } from '@ant-design/pro-components';
 
 const FormItem = Form.Item;
-const { Option } = Select;
 const InputGroup = Input.Group;
 
 const passwordStatusMap = {
@@ -41,9 +42,7 @@ const passwordProgressMap: {
 };
 
 const PAGE_NAME_UPPER_CAMEL_CASE: FC = () => {
-  const [count, setCount]: [number, any] = useState(0);
   const [visible, setVisible]: [boolean, any] = useState(false);
-  const [prefix, setPrefix]: [string, any] = useState('86');
   const [popover, setPopover]: [boolean, any] = useState(false);
   const confirmDirty = false;
   let interval: number | undefined;
@@ -56,18 +55,6 @@ const PAGE_NAME_UPPER_CAMEL_CASE: FC = () => {
     [interval],
   );
 
-  const onGetCaptcha = () => {
-    let counts = 59;
-    setCount(counts);
-    interval = window.setInterval(() => {
-      counts -= 1;
-      setCount(counts);
-      if (counts === 0) {
-        clearInterval(interval);
-      }
-    }, 1000);
-  };
-
   const getPasswordStatus = () => {
     const value = form.getFieldValue('password');
     if (value && value.length > 9) {
@@ -79,22 +66,21 @@ const PAGE_NAME_UPPER_CAMEL_CASE: FC = () => {
     return 'poor';
   };
 
-  const { loading: submitting, run: register } = useRequest<{ data: StateType }>(fakeRegister, {
-    manual: true,
-    onSuccess: (data, params) => {
-      if (data.status === 'ok') {
-        message.success('注册成功！');
-        history.push({
-          pathname: '/user/register-result',
-          state: {
-            account: params.email,
-          },
-        });
+  const onFinish = async (values: Store) => {
+    try {
+      // 登录
+      const msg = await userRegister(values as UserRegisterParams);
+
+      if (msg.status === 'ok') {
+        const defaultLoginSuccessMessage = '注册成功！';
+        message.success(defaultLoginSuccessMessage);
+      } else {
+        message.error(msg.message);
       }
-    },
-  });
-  const onFinish = (values: Store) => {
-    register(values);
+    } catch (error) {
+      const defaultLoginFailureMessage = '注册失败，请重试！';
+      message.error(defaultLoginFailureMessage);
+    }
   };
 
   const checkConfirm = (_: any, value: string) => {
@@ -124,10 +110,6 @@ const PAGE_NAME_UPPER_CAMEL_CASE: FC = () => {
       form.validateFields(['confirm']);
     }
     return promise.resolve();
-  };
-
-  const changePrefix = (value: string) => {
-    setPrefix(value);
   };
 
   const renderPasswordProgress = () => {
@@ -219,9 +201,6 @@ const PAGE_NAME_UPPER_CAMEL_CASE: FC = () => {
           <Input size="large" type="password" placeholder="确认密码" />
         </FormItem>
         <InputGroup compact>
-          <Select size="large" value={prefix} onChange={changePrefix} style={{ width: '20%' }}>
-            <Option value="86">+86</Option>
-          </Select>
           <FormItem
             style={{ width: '80%' }}
             name="mobile"
@@ -239,35 +218,45 @@ const PAGE_NAME_UPPER_CAMEL_CASE: FC = () => {
             <Input size="large" placeholder="手机号" />
           </FormItem>
         </InputGroup>
-        <Row gutter={8}>
-          <Col span={16}>
-            <FormItem
-              name="captcha"
-              rules={[
-                {
-                  required: true,
-                  message: '请输入验证码!',
-                },
-              ]}
-            >
-              <Input size="large" placeholder="验证码" />
-            </FormItem>
-          </Col>
-          <Col span={8}>
-            <Button
-              size="large"
-              disabled={!!count}
-              className={styles.getCaptcha}
-              onClick={onGetCaptcha}
-            >
-              {count ? `${count} s` : '获取验证码'}
-            </Button>
-          </Col>
-        </Row>
+        <ProFormCaptcha
+          fieldProps={{
+            size: 'large',
+          }}
+          captchaProps={{
+            size: 'large',
+          }}
+          phoneName="mobile"
+          placeholder={'验证码'}
+          captchaTextRender={(timing: any, count: any) => {
+            if (timing) {
+              return `${count} ${'秒后重新获取'}`;
+            }
+
+            return '获取验证码';
+          }}
+          name="captcha"
+          rules={[
+            {
+              required: true,
+              message: '验证码是必填项！',
+            },
+          ]}
+          onGetCaptcha={async (phone: string) => {
+            const result = await getCaptcha({
+              phone,
+            });
+
+            if (result === false) {
+              return;
+            }
+
+            message.success('获取验证码成功！');
+          }}
+        />
         <FormItem>
           <Button
             size="large"
-            loading={submitting}
+            // loading={submitting}
             className={styles.submit}
             type="primary"
             htmlType="submit"

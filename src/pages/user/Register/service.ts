@@ -1,22 +1,26 @@
+// @ts-ignore
+/* eslint-disable */
 import { request } from 'umi';
 
-export interface StateType {
+export type UserRegisterResponse = {
   status?: 'ok' | 'error';
-  currentAuthority?: 'user' | 'guest' | 'admin';
-}
+  message?: string;
+  uuid?: string;
+};
 
-export interface UserRegisterParams {
-  mail: string;
+export type UserRegisterParams = {
+  username: string;
   password: string;
   confirm: string;
   mobile: string;
   captcha: string;
-  prefix: string;
-}
+};
 
-export async function fakeRegister(params: UserRegisterParams) {
-  return request('/api/register', {
+/** 用户注册 POST /api/auth/register */
+export async function userRegister(body: UserRegisterParams, options?: { [key: string]: any }) {
+  return request<UserRegisterResponse>('/api/auth/register', {
     method: 'POST',
-    data: params,
+    data: body,
+    ...(options || {}),
   });
 }
