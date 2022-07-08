@@ -62,6 +62,11 @@ declare namespace API {
     message?: string;
   };
 
+  type UserLogoutResponse = {
+    status?: string;
+    message?: string;
+  };
+
   type LoginParams = {
     username?: string;
     password?: string;
