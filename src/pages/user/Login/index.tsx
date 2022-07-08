@@ -1,5 +1,5 @@
 import Footer from '@/components/Footer';
-import { getCaptcha, login } from '@/services/ant-design-pro/auth';
+import { getCaptcha } from '@/services/ant-design-pro/auth';
 import {
   AlipayCircleOutlined,
   LockOutlined,
@@ -18,6 +18,7 @@ import { Alert, message, Tabs } from 'antd';
 import React, { useState } from 'react';
 import { history, useModel } from 'umi';
 import styles from './index.less';
+import { loginUser } from './service';
 
 const LoginMessage: React.FC<{
   content: string;
@@ -48,7 +49,7 @@ const Login: React.FC = () => {
   const handleSubmit = async (values: API.LoginParams) => {
     try {
       // 登录
-      const msg = await login({ ...values, type });
+      const msg = await loginUser({ ...values, type });
 
       if (msg.status === 'ok') {
         const defaultLoginSuccessMessage = '登录成功！';
