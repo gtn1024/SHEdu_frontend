@@ -9,6 +9,7 @@ export default [
     ],
   },
   { path: '/home', name: '首页', icon: 'smile', component: './Home', layout: 'top' },
+  { path: '/course', name: '课程', icon: 'smile', component: './Course', layout: 'top' },
   { path: '/welcome', name: '欢迎', icon: 'smile', component: './Welcome' },
   {
     path: '/admin',
