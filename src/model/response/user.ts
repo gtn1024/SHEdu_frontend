@@ -4,6 +4,6 @@ export type CurrentUser = {
   avatar?: string;
   notifyCount?: number;
   unreadCount?: number;
-  access?: string;
+  role?: string;
   phone?: string;
 };

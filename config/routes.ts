@@ -21,7 +21,12 @@ export default [
       { component: './404' },
     ],
   },
-  { name: '查询表格', icon: 'table', path: '/list', component: './TableList' },
+  {
+    path: '/teacher',
+    name: '教师页',
+    access: 'canTeacher',
+    routes: [{ name: '查询表格', icon: 'table', path: '/teacher/list', component: './TableList' }],
+  },
   { path: '/', redirect: '/home' },
   { component: './404' },
 ];
