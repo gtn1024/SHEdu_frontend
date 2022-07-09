@@ -66,7 +66,11 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
   const { currentUser } = initialState;
 
   if (!currentUser || !currentUser.username) {
-    return loading;
+    return (
+      <a href="/user/login" className={styles.action}>
+        <Avatar size="small" className={styles.avatar} src={'/imgs/avatar.png'} alt="avatar" />
+      </a>
+    );
   }
 
   const menuItems: ItemType[] = [
