@@ -4,7 +4,7 @@ import { BookOutlined } from '@ant-design/icons';
 import type { Settings as LayoutSettings } from '@ant-design/pro-components';
 import { PageLoading, SettingDrawer } from '@ant-design/pro-components';
 import type { RunTimeLayoutConfig } from 'umi';
-import { Link } from 'umi';
+import { history, Link } from 'umi';
 import defaultSettings from '../config/defaultSettings';
 import type { CurrentUser } from './model/response/user';
 import { currentUser as queryCurrentUser } from '@/api/auth';
@@ -15,6 +15,9 @@ const isDev = process.env.NODE_ENV === 'development';
 export const initialStateConfig = {
   loading: <PageLoading />,
 };
+
+const loginPath = '/user/login';
+const registerPath = '/user/register';
 
 /**
  * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state
@@ -34,6 +37,15 @@ export async function getInitialState(): Promise<{
     }
     return undefined;
   };
+  // 如果不是登录或注册页面，执行
+  if (history.location.pathname !== loginPath && history.location.pathname !== registerPath) {
+    const currentUser = await fetchUserInfo();
+    return {
+      fetchUserInfo,
+      currentUser,
+      settings: defaultSettings,
+    };
+  }
   return {
     fetchUserInfo,
     settings: defaultSettings,
