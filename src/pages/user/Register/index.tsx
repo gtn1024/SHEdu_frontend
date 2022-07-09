@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import { useState, useEffect } from 'react';
 import { Form, Button, Input, Popover, Progress, message } from 'antd';
 import type { Store } from 'antd/es/form/interface';
-import { Link } from 'umi';
+import { history, Link } from 'umi';
 
 import styles from './index.less';
 import { getCaptcha, userRegister } from '@/api/auth';
@@ -74,6 +74,9 @@ const Register: FC = () => {
       if (msg.status === 'ok') {
         const defaultLoginSuccessMessage = '注册成功！';
         message.success(defaultLoginSuccessMessage);
+
+        // 跳转到登录页面
+        history.push('/user/login');
       } else {
         message.error(msg.message);
       }
