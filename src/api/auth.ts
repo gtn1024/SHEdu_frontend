@@ -8,6 +8,7 @@ import type {
 import type { CurrentUser } from '@/model/response/user';
 import { request } from 'umi';
 
+// TODO: 分层
 /** 发送验证码 GET /api/auth/captcha */
 export async function getCaptcha(
   params: {
@@ -26,6 +27,7 @@ export async function getCaptcha(
   });
 }
 
+// TODO: 分层
 /** 退出登录接口 GET /api/auth/logout */
 export async function userLogout(options?: Record<string, any>) {
   return request<UserLogoutResponse>('/api/auth/logout', {
@@ -34,6 +36,7 @@ export async function userLogout(options?: Record<string, any>) {
   });
 }
 
+// TODO: 分层
 /** 获取当前的用户 GET /api/auth/current */
 export async function currentUser(options?: Record<string, any>) {
   return request<{
@@ -44,6 +47,7 @@ export async function currentUser(options?: Record<string, any>) {
   });
 }
 
+// TODO: 分层
 /** 登录接口 POST /api/auth/login */
 export async function loginUser(body: LoginParams, options?: Record<string, any>) {
   return request<LoginResult>('/api/auth/login', {
@@ -56,6 +60,7 @@ export async function loginUser(body: LoginParams, options?: Record<string, any>
   });
 }
 
+// TODO: 分层
 /** 用户注册 POST /api/auth/register */
 export async function userRegister(body: UserRegisterParams, options?: Record<string, any>) {
   return request<UserRegisterResponse>('/api/auth/register', {
