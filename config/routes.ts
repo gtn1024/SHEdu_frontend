@@ -8,6 +8,7 @@ export default [
       { component: './404' },
     ],
   },
+  { path: '/home', name: '首页', icon: 'smile', component: './Home', layout: 'top' },
   { path: '/welcome', name: '欢迎', icon: 'smile', component: './Welcome' },
   {
     path: '/admin',
@@ -20,6 +21,6 @@ export default [
     ],
   },
   { name: '查询表格', icon: 'table', path: '/list', component: './TableList' },
-  { path: '/', redirect: '/welcome' },
+  { path: '/', redirect: '/home' },
   { component: './404' },
 ];
